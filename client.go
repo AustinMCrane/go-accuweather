@@ -2,6 +2,7 @@ package accuweather
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -11,6 +12,9 @@ import (
 
 const baseEndpoint = "http://dataservice.accuweather.com"
 
+// ErrNotFound 404 error
+var ErrNotFound = errors.New("api returned no results")
+
 // HTTPClient an interface to describe simple requests to a url
 type HTTPClient interface {
 	Get(url string) (resp *http.Response, err error)
@@ -18,31 +22,38 @@ type HTTPClient interface {
 
 // Client accuweather http request client
 type Client struct {
-	apiKey string
-	client HTTPClient
+	apiKey   string
+	client   HTTPClient
+	Language string
 }
 
 // NewClient create a new accuweather http request client with api key
 func NewClient(apiKey string, httpClient HTTPClient) *Client {
 	return &Client{
-		apiKey: apiKey,
-		client: httpClient,
+		apiKey:   apiKey,
+		client:   httpClient,
+		Language: "en-us", // change after creating a new client
 	}
 }
 
 // AccuAPIRequest is a base object for any accuweather api request
 // includes the api key to every request
 type AccuAPIRequest struct {
-	APIKey string `url:"apiKey"`
+	APIKey   string `url:"apiKey"`  // api key from accuweather console
+	Language string `url"language"` // what language the data will be returned in ie: 'en-us'
 }
 
 func (c *Client) newAccuRequest() *AccuAPIRequest {
 	return &AccuAPIRequest{
-		APIKey: c.apiKey,
+		APIKey:   c.apiKey,
+		Language: c.Language,
 	}
 }
 
-func (c *Client) SearchForLocation(search string) ([]*Location, error) {
+// SearchForLocations returns a list of locations found with a search query
+// example: `SearchForLocations("new york")` will return new your new york
+// as one of the results
+func (c *Client) SearchForLocations(search string) ([]*Location, error) {
 	accuRequest := c.newAccuRequest()
 	req := &searchLocationsRequest{
 		AccuAPIRequest: *accuRequest,
@@ -57,6 +68,18 @@ func (c *Client) SearchForLocation(search string) ([]*Location, error) {
 type searchLocationsRequest struct {
 	AccuAPIRequest
 	Query string `url:"q,omitempty"`
+}
+
+func (c *Client) CurrentConditions(locationKey string) (*CurrentCondition, error) {
+	req := c.newAccuRequest()
+	var result []*CurrentCondition
+	err := c.getJSON("/currentconditions/v1/"+locationKey, req, &result)
+	if len(result) == 0 {
+		return nil, ErrNotFound
+	}
+
+	// NOTE: not sure why this api returns an array, i think it shouldnt
+	return result[0], err
 }
 
 func (c *Client) getJSON(route string, request interface{}, response interface{}) error {

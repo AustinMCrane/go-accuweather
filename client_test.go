@@ -62,14 +62,14 @@ func TestClientBadRequest(t *testing.T) {
 	}
 
 	c := NewClient(*testKey, &httpc)
-	_, err := c.SearchForLocation("wichita")
+	_, err := c.SearchForLocations("wichita")
 
 	if err == nil {
 		t.Fatal("expected an internal server error")
 	}
 }
 
-func TestSearchLocation(t *testing.T) {
+func TestSearchLocations(t *testing.T) {
 	body, err := readTestData("search_locations.json")
 	if err != nil {
 		t.Fatal(err)
@@ -77,11 +77,37 @@ func TestSearchLocation(t *testing.T) {
 
 	httpc := mockHTTPClient{body: body, code: 200}
 	c := NewClient(*testKey, &httpc)
-	result, err := c.SearchForLocation("wichita")
+	result, err := c.SearchForLocations("wichita")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if result == nil {
 		t.Fatalf("result was unexpectedly nil")
 	}
+}
+
+func TestCurrentConditions(t *testing.T) {
+	body, err := readTestData("current_conditions.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	httpc := mockHTTPClient{body: body, code: 200}
+	c := NewClient(*testKey, &httpc)
+	result, err := c.CurrentConditions("348426")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result == nil {
+		t.Fatalf("result was unexpectedly nil")
+	}
+
+	// no results
+	httpc = mockHTTPClient{body: "[]", code: 200}
+	c = NewClient(*testKey, &httpc)
+	result, err = c.CurrentConditions("348426")
+	if err != ErrNotFound {
+		t.Fatalf("expected error not found")
+	}
+
 }

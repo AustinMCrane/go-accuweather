@@ -101,3 +101,23 @@ type Location struct {
 		CanonicalLocationKey string `json:"CanonicalLocationKey"`
 	} `json:"Details"`
 }
+
+type CurrentCondition struct {
+	LocalObservationDateTime string `json:"LocalObservationDateTime"`
+	EpochTime                int    `json:"EpochTime"`
+	WeatherText              string `json:"WeatherText"`
+	WeatherIcon              int    `json:"WeatherIcon"`
+	IsDayTime                bool   `json:"IsDayTime"`
+	Temperature              struct {
+		Metric   Measure `json:"Metric"`
+		Imperial Measure `json:"Imperial"`
+	} `json:"Temperature"`
+	MobileLink string `json:"MobileLink"`
+	Link       string `json:"Link"`
+}
+
+type Measure struct {
+	Value    float32 `json:"Value"`
+	Unit     string  `json:"Unit"`
+	UnitType int     `json:"UnitType"`
+}
