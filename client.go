@@ -39,7 +39,7 @@ func NewClient(apiKey string, httpClient HTTPClient) *Client {
 // AccuAPIRequest is a base object for any accuweather api request
 // includes the api key to every request
 type AccuAPIRequest struct {
-	APIKey   string `url:"apiKey"`  // api key from accuweather console
+	APIKey   string `url:"apikey"`  // api key from accuweather console
 	Language string `url"language"` // what language the data will be returned in ie: 'en-us'
 }
 
@@ -50,10 +50,10 @@ func (c *Client) newAccuRequest() *AccuAPIRequest {
 	}
 }
 
-// SearchForLocations returns a list of locations found with a search query
-// example: `SearchForLocations("new york")` will return new your new york
+// SearchLocations returns a list of locations found with a search query
+// example: `SearchLocations("new york")` will return new your new york
 // as one of the results
-func (c *Client) SearchForLocations(search string) ([]*Location, error) {
+func (c *Client) SearchLocations(search string) ([]*Location, error) {
 	accuRequest := c.newAccuRequest()
 	req := &searchLocationsRequest{
 		AccuAPIRequest: *accuRequest,
