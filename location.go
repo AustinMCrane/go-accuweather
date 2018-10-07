@@ -1,55 +1,50 @@
 package accuweather
 
 type Country struct {
-	ID            string `json:"ID"`
-	LocalizedName string `json:"LocalizedName"`
-	EnglishName   string `json:"EnglishName"`
+	ID            string `json:"id"`
+	LocalizedName string `json:"localizedName"`
+	EnglishName   string `json:"englishName"`
 }
 
 type Region struct {
-	ID            string `json:"ID"`
-	LocalizedName string `json:"LocalizedName"`
-	EnglishName   string `json:"EnglishName"`
+	ID            string `json:"id"`
+	LocalizedName string `json:"localizedName"`
+	EnglishName   string `json:"englishName"`
 }
 
 type AdministrativeArea struct {
-	ID            string `json:"ID"`
-	LocalizedName string `json:"LocalizedName"`
-	EnglishName   string `json:"EnglishName"`
-	Level         int    `json:"Level"`
-	LocalizedType string `json:"LocalizedType"`
-	EnglishType   string `json:"EnglishType"`
-	CountryID     string `json:"CountryID"`
+	ID            string `json:"id"`
+	LocalizedName string `json:"localizedName"`
+	EnglishName   string `json:"englishName"`
+	Level         int    `json:"level"`
+	LocalizedType string `json:"localizedType"`
+	EnglishType   string `json:"englishType"`
+	CountryID     string `json:"countryID"`
 }
+
+type GeoPosition struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+	Elevation struct {
+		Metric   Measure `json:"metric"`
+		Imperial Measure `json:"imperial"`
+	} `json:"elevation"`
+}
+
 type Location struct {
-	Version            int                `json:"Version"`
-	Key                string             `json:"Key"`
-	Type               string             `json:"Type"`
-	Rank               int                `json:"Rank"`
-	LocalizedName      string             `json:"LocalizedName"`
-	EnglishName        string             `json:"EnglishName"`
-	PrimaryPostalCode  string             `json:"PrimaryPostalCode"`
-	Region             Region             `json:"Region"`
-	Country            Country            `json:"Country"`
-	AdministrativeArea AdministrativeArea `json:"AdministrativeArea"`
-	TimeZone           TimeZone           `json:"TimeZone"`
-	GeoPosition        struct {
-		Latitude  float64 `json:"Latitude"`
-		Longitude float64 `json:"Longitude"`
-		Elevation struct {
-			Metric struct {
-				Value    float32 `json:"Value"`
-				Unit     string  `json:"Unit"`
-				UnitType int     `json:"UnitType"`
-			} `json:"Metric"`
-			Imperial struct {
-				Value    float32 `json:"Value"`
-				Unit     string  `json:"Unit"`
-				UnitType int     `json:"UnitType"`
-			} `json:"Imperial"`
-		} `json:"Elevation"`
-	} `json:"GeoPosition"`
-	IsAlias                bool `json:"IsAlias"`
+	Version                int                `json:"version"`
+	Key                    string             `json:"key"`
+	Type                   string             `json:"type"`
+	Rank                   int                `json:"rank"`
+	LocalizedName          string             `json:"localizedName"`
+	EnglishName            string             `json:"englishName"`
+	PrimaryPostalCode      string             `json:"primaryPostalCode"`
+	Region                 Region             `json:"region"`
+	Country                Country            `json:"country"`
+	AdministrativeArea     AdministrativeArea `json:"administrativeArea"`
+	TimeZone               TimeZone           `json:"timeZone"`
+	GeoPosition            GeoPosition        `json:"GeoPosition"`
+	IsAlias                bool               `json:"IsAlias"`
 	SupplementalAdminAreas []struct {
 		Level         int    `json:"Level"`
 		LocalizedName string `json:"LocalizedName"`
