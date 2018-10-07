@@ -7,9 +7,6 @@ install:
 - go get github.com/modocache/gover
 - go get -t ./...
 script:
-- go test -v -coverprofile=iex.coverprofile
-- go test -v -coverprofile=iextp.coverprofile ./iextp
-- go test -v -coverprofile=tops.coverprofile ./iextp/tops
-- go test -v -coverprofile=deep.coverprofile ./iextp/deep
+- go test -v -coverprofile=accuweather.coverprofile
 - gover
 - goveralls -coverprofile=gover.coverprofile -service=travis-ci
