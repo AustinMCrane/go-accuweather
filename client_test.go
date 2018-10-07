@@ -62,7 +62,7 @@ func TestClientBadRequest(t *testing.T) {
 	}
 
 	c := NewClient(*testKey, &httpc)
-	_, err := c.SearchForLocations("wichita")
+	_, err := c.SearchLocations("wichita")
 
 	if err == nil {
 		t.Fatal("expected an internal server error")
@@ -77,7 +77,7 @@ func TestSearchLocations(t *testing.T) {
 
 	httpc := mockHTTPClient{body: body, code: 200}
 	c := NewClient(*testKey, &httpc)
-	result, err := c.SearchForLocations("wichita")
+	result, err := c.SearchLocations("wichita")
 	if err != nil {
 		t.Fatal(err)
 	}
