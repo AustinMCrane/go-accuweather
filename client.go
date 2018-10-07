@@ -36,14 +36,14 @@ type AccuAPIRequest struct {
 	APIKey string `url:"apiKey"`
 }
 
-func (c *Client) NewAccuRequest() *AccuAPIRequest {
+func (c *Client) newAccuRequest() *AccuAPIRequest {
 	return &AccuAPIRequest{
 		APIKey: c.apiKey,
 	}
 }
 
 func (c *Client) SearchForLocation(search string) ([]*Location, error) {
-	accuRequest := c.NewAccuRequest()
+	accuRequest := c.newAccuRequest()
 	req := &searchLocationsRequest{
 		AccuAPIRequest: *accuRequest,
 		Query:          search,

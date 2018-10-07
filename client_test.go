@@ -18,7 +18,7 @@ func TestMain(m *testing.M) {
 // read test json data from testdata directory
 // used to load test responses from the iex api
 func readTestData(fileName string) (string, error) {
-	b, err := ioutil.ReadFile("testdata/responses/" + fileName)
+	b, err := ioutil.ReadFile("test/responses/" + fileName)
 	if err != nil {
 		return "", err
 	}
