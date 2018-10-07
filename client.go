@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/google/go-querystring/query"
@@ -50,7 +49,6 @@ func (c *Client) SearchForLocation(search string) ([]*Location, error) {
 		Query:          search,
 	}
 
-	log.Println(req)
 	var result []*Location
 	err := c.getJSON("/locations/v1/cities/search", req, &result)
 	return result, err

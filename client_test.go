@@ -35,13 +35,13 @@ type mockHTTPClient struct {
 
 func (c *mockHTTPClient) Get(url string) (*http.Response, error) {
 	w := httptest.NewRecorder()
+	w.WriteHeader(c.code)
+
 	w.WriteString(c.body)
 
 	for key, value := range c.headers {
 		w.Header().Add(key, value)
 	}
-
-	w.WriteHeader(c.code)
 
 	resp := w.Result()
 	return resp, c.err
@@ -51,6 +51,21 @@ func TestNewClient(t *testing.T) {
 	c := NewClient(*testKey, &http.Client{})
 	if c == nil {
 		t.Fatalf("returned a nil client")
+	}
+}
+
+func TestClientBadRequest(t *testing.T) {
+	// 500 internal server error
+	httpc := mockHTTPClient{
+		body: "{}",
+		code: http.StatusInternalServerError,
+	}
+
+	c := NewClient(*testKey, &httpc)
+	_, err := c.SearchForLocation("wichita")
+
+	if err == nil {
+		t.Fatal("expected an internal server error")
 	}
 }
 
