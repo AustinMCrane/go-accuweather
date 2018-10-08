@@ -26,7 +26,7 @@ func main() {
 	flag.Parse()
 	client := accuweather.NewClient(*key, &http.Client{})
 
-	locations, err := client.SearchLocations(*location)
+	locations, err := client.CitySearch(*location)
 	if err != nil {
 		panic(err)
 	}

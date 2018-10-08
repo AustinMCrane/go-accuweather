@@ -95,6 +95,9 @@ type searchRequest struct {
 
 // CurrentConditions gets the current conditions for a location by location key,
 // get location keys from SearchLocation or other location search functions.
+//
+// accuweather api docs:
+// https://developer.accuweather.com/accuweather-current-conditions-api/apis/get/currentconditions/v1/%7BlocationKey%7D
 func (c *Client) CurrentConditions(locationKey string) (*CurrentCondition, error) {
 	req := c.newAccuRequest()
 	var result []*CurrentCondition
@@ -107,6 +110,7 @@ func (c *Client) CurrentConditions(locationKey string) (*CurrentCondition, error
 	return result[0], err
 }
 
+// getJSON a generic way to send a get request and marshal response into a interface
 func (c *Client) getJSON(route string, request interface{}, response interface{}) error {
 	url := c.endpoint(route)
 
@@ -135,6 +139,8 @@ func (c *Client) getJSON(route string, request interface{}, response interface{}
 	return dec.Decode(response)
 }
 
+// endpoint returns the concatinated version of the url with the base
+// url in front of the route
 func (c *Client) endpoint(route string) string {
 	return baseEndpoint + route
 }

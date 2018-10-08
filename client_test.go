@@ -19,9 +19,11 @@ func TestMain(m *testing.M) {
 // used to load test responses from the iex api
 func readTestData(fileName string) (string, error) {
 	b, err := ioutil.ReadFile("test/responses/" + fileName)
+
 	if err != nil {
 		return "", err
 	}
+
 	str := string(b)
 	return str, nil
 }
@@ -33,6 +35,9 @@ type mockHTTPClient struct {
 	err     error
 }
 
+// Get is just to conform to HTTPClient
+// it takes the mockHTTPClients and writes the responses for code, headers,
+// body, headers ect...
 func (c *mockHTTPClient) Get(url string) (*http.Response, error) {
 	w := httptest.NewRecorder()
 	w.WriteHeader(c.code)
