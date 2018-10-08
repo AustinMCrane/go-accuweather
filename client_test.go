@@ -62,25 +62,47 @@ func TestClientBadRequest(t *testing.T) {
 	}
 
 	c := NewClient(*testKey, &httpc)
-	_, err := c.SearchLocations("wichita")
+	_, err := c.CitySearch("wichita")
 
 	if err == nil {
 		t.Fatal("expected an internal server error")
 	}
 }
 
-func TestSearchLocations(t *testing.T) {
-	body, err := readTestData("search_locations.json")
+func TestCitySearch(t *testing.T) {
+	body, err := readTestData("city_search.json")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	httpc := mockHTTPClient{body: body, code: 200}
 	c := NewClient(*testKey, &httpc)
-	result, err := c.SearchLocations("wichita")
+	result, err := c.CitySearch("wichita")
 	if err != nil {
 		t.Fatal(err)
 	}
+	if result == nil {
+		t.Fatalf("result was unexpectedly nil")
+	}
+}
+
+func TestGeopositionSearch(t *testing.T) {
+	body, err := readTestData("geoposition_search.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	httpc := mockHTTPClient{body: body, code: 200}
+	c := NewClient(*testKey, &httpc)
+
+	lat := 37.4256
+	lon := -97.343460
+
+	result, err := c.GeopositionSearch(lat, lon)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatalf("result was unexpectedly nil")
 	}

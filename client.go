@@ -39,8 +39,8 @@ func NewClient(apiKey string, httpClient HTTPClient) *Client {
 // AccuAPIRequest is a base object for any accuweather api request
 // includes the api key to every request
 type AccuAPIRequest struct {
-	APIKey   string `url:"apikey"`  // api key from accuweather console
-	Language string `url"language"` // what language the data will be returned in ie: 'en-us'
+	APIKey   string `url:"apikey"`   // api key from accuweather console
+	Language string `url:"language"` // what language the data will be returned in ie: 'en-us'
 }
 
 func (c *Client) newAccuRequest() *AccuAPIRequest {
@@ -50,12 +50,15 @@ func (c *Client) newAccuRequest() *AccuAPIRequest {
 	}
 }
 
-// SearchLocations returns a list of locations found with a search query
-// example: `SearchLocations("new york")` will return new your new york
+// CitySearch returns a list of cities found with a search query
+// example: `CitySearch("new york")` will return new your new york
 // as one of the results
-func (c *Client) SearchLocations(search string) ([]*Location, error) {
+//
+// accuweather api docs:
+// https://developer.accuweather.com/accuweather-locations-api/apis/get/locations/v1/cities/search
+func (c *Client) CitySearch(search string) ([]*Location, error) {
 	accuRequest := c.newAccuRequest()
-	req := &searchLocationsRequest{
+	req := &searchRequest{
 		AccuAPIRequest: *accuRequest,
 		Query:          search,
 	}
@@ -65,11 +68,33 @@ func (c *Client) SearchLocations(search string) ([]*Location, error) {
 	return result, err
 }
 
-type searchLocationsRequest struct {
+// GeopositionSearch returns a city closest to the latitude and longitude pair
+//
+// accuweather api docs:
+// https://developer.accuweather.com/accuweather-locations-api/apis/get/locations/v1/cities/geoposition/search
+func (c *Client) GeopositionSearch(lat float64, lon float64) (*Location, error) {
+
+	// lat lon is a comma seperated list lat,lon
+	latlon := fmt.Sprintf("%f,%f", lat, lon)
+
+	accuRequest := c.newAccuRequest()
+	req := &searchRequest{
+		AccuAPIRequest: *accuRequest,
+		Query:          latlon,
+	}
+
+	var result *Location
+	err := c.getJSON("/locations/v1/cities/geoposition/search", req, &result)
+	return result, err
+}
+
+type searchRequest struct {
 	AccuAPIRequest
 	Query string `url:"q,omitempty"`
 }
 
+// CurrentConditions gets the current conditions for a location by location key,
+// get location keys from SearchLocation or other location search functions.
 func (c *Client) CurrentConditions(locationKey string) (*CurrentCondition, error) {
 	req := c.newAccuRequest()
 	var result []*CurrentCondition
