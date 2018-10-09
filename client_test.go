@@ -2,6 +2,7 @@ package accuweather
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -9,6 +10,8 @@ import (
 )
 
 var testKey = flag.String("test-key", "testtest", "accuweather test api key")
+
+var wichitaKey = "348426"
 
 func TestMain(m *testing.M) {
 	flag.Parse()
@@ -113,7 +116,7 @@ func TestGeopositionSearch(t *testing.T) {
 	}
 }
 
-func TestCurrentConditions(t *testing.T) {
+func TestGetCurrentConditions(t *testing.T) {
 	body, err := readTestData("current_conditions.json")
 	if err != nil {
 		t.Fatal(err)
@@ -121,7 +124,7 @@ func TestCurrentConditions(t *testing.T) {
 
 	httpc := mockHTTPClient{body: body, code: 200}
 	c := NewClient(*testKey, &httpc)
-	result, err := c.CurrentConditions("348426")
+	result, err := c.GetCurrentConditions(wichitaKey)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -132,9 +135,53 @@ func TestCurrentConditions(t *testing.T) {
 	// no results
 	httpc = mockHTTPClient{body: "[]", code: 200}
 	c = NewClient(*testKey, &httpc)
-	result, err = c.CurrentConditions("348426")
+	result, err = c.GetCurrentConditions(wichitaKey)
 	if err != ErrNotFound {
 		t.Fatalf("expected error not found")
 	}
+}
 
+func TestGetDailyForecasts(t *testing.T) {
+	ttable := []struct {
+		Type        ForecastType
+		LocationKey string
+	}{
+		{
+			Type:        OneDay,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        FiveDay,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        TenDay,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        FifteenDay,
+			LocationKey: wichitaKey,
+		},
+	}
+
+	body, err := readTestData("1day_forecast.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i, tt := range ttable {
+		t.Run(fmt.Sprintf("test at index: %d", i), func(t *testing.T) {
+			httpc := mockHTTPClient{body: body, code: 200}
+			c := NewClient(*testKey, &httpc)
+			result, err := c.GetDailyForecasts(tt.LocationKey, tt.Type)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if result == nil {
+				t.Fatalf("result was unexpectedly nil")
+			}
+		})
+	}
 }

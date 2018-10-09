@@ -93,12 +93,12 @@ type searchRequest struct {
 	Query string `url:"q,omitempty"`
 }
 
-// CurrentConditions gets the current conditions for a location by location key,
+// GetCurrentConditions gets the current conditions for a location by location key,
 // get location keys from SearchLocation or other location search functions.
 //
 // accuweather api docs:
 // https://developer.accuweather.com/accuweather-current-conditions-api/apis/get/currentconditions/v1/%7BlocationKey%7D
-func (c *Client) CurrentConditions(locationKey string) (*CurrentCondition, error) {
+func (c *Client) GetCurrentConditions(locationKey string) (*CurrentCondition, error) {
 	req := c.newAccuRequest()
 	var result []*CurrentCondition
 	err := c.getJSON("/currentconditions/v1/"+locationKey, req, &result)
@@ -108,6 +108,17 @@ func (c *Client) CurrentConditions(locationKey string) (*CurrentCondition, error
 
 	// NOTE: not sure why this api returns an array, i think it shouldnt
 	return result[0], err
+}
+
+// GetDailyForecasts gets 1day, 5day, 10day, or 15day forecast for the location key
+//
+// accuweather api docs:
+// https://developer.accuweather.com/accuweather-forecast-api/apis/get/forecasts/v1/daily/1day/%7BlocationKey%7D
+func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType) (*Forecast, error) {
+	req := c.newAccuRequest()
+	var result Forecast
+	err := c.getJSON("/forecasts/v1/daily/"+forecastType.String()+"/"+locationKey, req, &result)
+	return &result, err
 }
 
 // getJSON a generic way to send a get request and marshal response into a interface
