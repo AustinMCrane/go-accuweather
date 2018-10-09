@@ -37,7 +37,7 @@ func main() {
 	}
 
 	locationKey := locations[0].Key
-	conditions, err := client.CurrentConditions(locationKey)
+	conditions, err := client.GetCurrentConditions(locationKey)
 	if err != nil {
 		panic(err)
 	}
