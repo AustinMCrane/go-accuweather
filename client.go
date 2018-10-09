@@ -114,11 +114,23 @@ func (c *Client) GetCurrentConditions(locationKey string) (*CurrentCondition, er
 //
 // accuweather api docs:
 // https://developer.accuweather.com/accuweather-forecast-api/apis/get/forecasts/v1/daily/1day/%7BlocationKey%7D
-func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType) (*Forecast, error) {
+func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType) (*DailyForecast, error) {
 	req := c.newAccuRequest()
-	var result Forecast
+	var result DailyForecast
 	err := c.getJSON("/forecasts/v1/daily/"+forecastType.String()+"/"+locationKey, req, &result)
 	return &result, err
+}
+
+// GetHourlyForecasts gets hourly forecast for 1hour, 12hour, 24hour, 72hour, or 120hour for the location with
+// locationkey
+//
+// accuweather api docs:
+// https://developer.accuweather.com/accuweather-forecast-api/apis/get/forecasts/v1/daily/1day/%7BlocationKey%7D
+func (c *Client) GetHourlyForecasts(locationKey string, forecastType HourlyForecastType) ([]*HourlyForecast, error) {
+	req := c.newAccuRequest()
+	var result []*HourlyForecast
+	err := c.getJSON("/forecasts/v1/hourly/"+forecastType.String()+"/"+locationKey, req, &result)
+	return result, err
 }
 
 // getJSON a generic way to send a get request and marshal response into a interface

@@ -143,7 +143,7 @@ func TestGetCurrentConditions(t *testing.T) {
 
 func TestGetDailyForecasts(t *testing.T) {
 	ttable := []struct {
-		Type        ForecastType
+		Type        DailyForecastType
 		LocationKey string
 	}{
 		{
@@ -174,6 +174,55 @@ func TestGetDailyForecasts(t *testing.T) {
 			httpc := mockHTTPClient{body: body, code: 200}
 			c := NewClient(*testKey, &httpc)
 			result, err := c.GetDailyForecasts(tt.LocationKey, tt.Type)
+
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if result == nil {
+				t.Fatalf("result was unexpectedly nil")
+			}
+		})
+	}
+}
+
+func TestGetHourlyForecasts(t *testing.T) {
+	ttable := []struct {
+		Type        HourlyForecastType
+		LocationKey string
+	}{
+		{
+			Type:        OneHour,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        TwelveHour,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        TwentyFourHour,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        SeventyTwoHour,
+			LocationKey: wichitaKey,
+		},
+		{
+			Type:        OneHundredTwentyHour,
+			LocationKey: wichitaKey,
+		},
+	}
+
+	body, err := readTestData("1hour_forecast.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i, tt := range ttable {
+		t.Run(fmt.Sprintf("test at index: %d", i), func(t *testing.T) {
+			httpc := mockHTTPClient{body: body, code: 200}
+			c := NewClient(*testKey, &httpc)
+			result, err := c.GetHourlyForecasts(tt.LocationKey, tt.Type)
 
 			if err != nil {
 				t.Fatal(err)
