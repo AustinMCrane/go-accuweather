@@ -12,7 +12,7 @@
 
 #### Usage:
 
-##### Daily Forecast Example
+##### Current Conditions Example
 ```
 package main
 
