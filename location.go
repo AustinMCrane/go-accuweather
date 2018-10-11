@@ -1,17 +1,20 @@
 package accuweather
 
+// Country country of origin
 type Country struct {
 	ID            string `json:"id"`
 	LocalizedName string `json:"localizedName"`
 	EnglishName   string `json:"englishName"`
 }
 
+// Region region of origin
 type Region struct {
 	ID            string `json:"id"`
 	LocalizedName string `json:"localizedName"`
 	EnglishName   string `json:"englishName"`
 }
 
+// AdministrativeArea area of origin
 type AdministrativeArea struct {
 	ID            string `json:"id"`
 	LocalizedName string `json:"localizedName"`
@@ -22,6 +25,7 @@ type AdministrativeArea struct {
 	CountryID     string `json:"countryID"`
 }
 
+// GeoPosition geographical position
 type GeoPosition struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
@@ -31,8 +35,11 @@ type GeoPosition struct {
 	} `json:"elevation"`
 }
 
+// Location is a key part of the api, you must have a location
+// to get any of the data with a location key
 type Location struct {
-	Version                int                `json:"version"`
+	Version int `json:"version"`
+	// Key is the key to the location for anything that is specific to a location
 	Key                    string             `json:"key"`
 	Type                   string             `json:"type"`
 	Rank                   int                `json:"rank"`

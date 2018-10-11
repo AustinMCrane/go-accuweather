@@ -1,6 +1,9 @@
 package accuweather
 
+// DailyForecastType forecast type for daily forecasts
 type DailyForecastType string
+
+// HourlyForecastType forecast type for hourly forecasts
 type HourlyForecastType string
 
 func (f DailyForecastType) String() string {
@@ -12,15 +15,24 @@ func (f HourlyForecastType) String() string {
 }
 
 const (
-	OneDay     DailyForecastType = "1day"
-	FiveDay    DailyForecastType = "5day"
-	TenDay     DailyForecastType = "10day"
+	// OneDay daily forecast type for 1 days
+	OneDay DailyForecastType = "1day"
+	// FiveDay daily forecast type for 5 days
+	FiveDay DailyForecastType = "5day"
+	// TenDay daily forecast type for 10 days
+	TenDay DailyForecastType = "10day"
+	// FifteenDay daily forecast type for 15 days
 	FifteenDay DailyForecastType = "15day"
 
-	OneHour              HourlyForecastType = "1hour"
-	TwelveHour           HourlyForecastType = "12hour"
-	TwentyFourHour       HourlyForecastType = "24hour"
-	SeventyTwoHour       HourlyForecastType = "72hour"
+	// OneHour hourly forecast type for 1 hour
+	OneHour HourlyForecastType = "1hour"
+	// TwelveHour hourly forecast type for 12 hours
+	TwelveHour HourlyForecastType = "12hour"
+	// TwentyFourHour hourly forecast type for 24 hours
+	TwentyFourHour HourlyForecastType = "24hour"
+	// SeventyTwoHour hourly forecast type for 72 hours
+	SeventyTwoHour HourlyForecastType = "72hour"
+	// OneHundredTwentyHour hourly forecast type for 120 hours
 	OneHundredTwentyHour HourlyForecastType = "120hour"
 )
 
