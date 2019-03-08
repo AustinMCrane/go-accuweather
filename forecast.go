@@ -84,7 +84,7 @@ type DailyForecastDetailed struct {
 		MobileLink         string `json:"MobileLink"`
 		Link               string `json:"Link"`
 	} `json:"Headline"`
-	DailyForecastsDetailed []struct {
+	DailyForecasts []struct {
 		Date      string `json:"Date"`
 		EpochDate int    `json:"EpochDate"`
 		Sun       struct {
@@ -113,7 +113,7 @@ type DailyForecastDetailed struct {
 			Minimum Measure `json:"Minimum"`
 			Maximum Measure `json:"Maximum"`
 		} `json:"RealFeelTemperatureShade"`
-		HoursOfSun       int `json:"HoursOfSun`
+		HoursOfSun       float32 `json:"HoursOfSun`
 		DegreeDaySummary struct {
 			Heating Measure `json:"Heating"`
 			Cooling Measure `json:"Cooling"`
@@ -155,11 +155,11 @@ type DailyForecastDetailed struct {
 			Rain                 Measure `json:"Rain"`
 			Snow                 Measure `json:"Snow"`
 			Ice                  Measure `json:"Ice"`
-			HoursOfPrecipitation int     `json:"HoursOfPrecipitation"`
-			HoursOfRain          int     `json:"HoursOfRain"`
-			HoursOfSnow          int     `json:"HoursOfSnow"`
-			HoursOfIce           int     `json:"HoursOfIce"`
-			CloudCover           int     `json:"CloudCover"`
+			HoursOfPrecipitation float32 `json:"HoursOfPrecipitation"`
+			HoursOfRain          float32 `json:"HoursOfRain"`
+			HoursOfSnow          float32 `json:"HoursOfSnow"`
+			HoursOfIce           float32 `json:"HoursOfIce"`
+			CloudCover           float32 `json:"CloudCover"`
 		} `json:"Day"`
 		Night struct {
 			Icon                     int    `json:"Icon"`
@@ -191,16 +191,16 @@ type DailyForecastDetailed struct {
 			Rain                 Measure `json:"Rain"`
 			Snow                 Measure `json:"Snow"`
 			Ice                  Measure `json:"Ice"`
-			HoursOfPrecipitation int     `json:"HoursOfPrecipitation"`
-			HoursOfRain          int     `json:"HoursOfRain"`
-			HoursOfSnow          int     `json:"HoursOfSnow"`
-			HoursOfIce           int     `json:"HoursOfIce"`
-			CloudCover           int     `json:"CloudCover"`
+			HoursOfPrecipitation float32 `json:"HoursOfPrecipitation"`
+			HoursOfRain          float32 `json:"HoursOfRain"`
+			HoursOfSnow          float32 `json:"HoursOfSnow"`
+			HoursOfIce           float32 `json:"HoursOfIce"`
+			CloudCover           float32 `json:"CloudCover"`
 		} `json:"Night"`
 		Sources    []string `json:"Sources"`
 		MobileLink string   `json:"MobileLink"`
 		Link       string   `json:"Link"`
-	} `json:"DailyForecastsDetailed"`
+	} `json:"DailyForecasts"`
 }
 
 // HourlyForecast contains data for an hour of forcast
