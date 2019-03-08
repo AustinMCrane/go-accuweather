@@ -114,7 +114,7 @@ func (c *Client) GetCurrentConditions(locationKey string) (*CurrentCondition, er
 //
 // accuweather api docs:
 // https://developer.accuweather.com/accuweather-forecast-api/apis/get/forecasts/v1/daily/1day/%7BlocationKey%7D
-func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType, details bool) (*DailyForecast, error) {
+func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType) (*DailyForecast, error) {
 	req := c.newAccuRequest()
 	var result DailyForecast
 	err := c.getJSON("/forecasts/v1/daily/"+forecastType.String()+"/"+locationKey, req, &result)
