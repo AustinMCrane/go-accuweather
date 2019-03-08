@@ -114,12 +114,31 @@ func (c *Client) GetCurrentConditions(locationKey string) (*CurrentCondition, er
 //
 // accuweather api docs:
 // https://developer.accuweather.com/accuweather-forecast-api/apis/get/forecasts/v1/daily/1day/%7BlocationKey%7D
-func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType) (*DailyForecast, error) {
+func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecastType, details bool) (*DailyForecast, error) {
 	req := c.newAccuRequest()
 	var result DailyForecast
 	err := c.getJSON("/forecasts/v1/daily/"+forecastType.String()+"/"+locationKey, req, &result)
 	return &result, err
 }
+
+// GetDailyForecastsDetailed gets forecast exactly like GetDailyForecats but with all the details available.
+//
+// See GetDailyForecasts for more information.
+func (c *accuWeatherClient) GetDailyForecastsDetailed(locationKey string, forecastType DailyForecastType) (*DailyForecast, error) {
+	req := &detailedRequest{
+		AccuAPIRequest: *c.newAccuRequest(),
+		Query: true
+	}
+	var result DailyForecast
+	err := c.getJSON("/forecasts/v1/daily/"+forecastType.String()+"/"+locationKey, req, &result)
+	return &result, err
+}
+
+type detailedRequest struct {
+	AccuAPIRequest
+	Query string `url:"details,omitempty"`
+}
+
 
 // GetHourlyForecasts gets hourly forecast for 1hour, 12hour, 24hour, 72hour, or 120hour for the location with
 // locationkey
