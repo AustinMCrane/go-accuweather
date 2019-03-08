@@ -105,8 +105,14 @@ type DailyForecastDetailed struct {
 			Minimum Measure `json:"Minimum"`
 			Maximum Measure `json:"Maximum"`
 		} `json:"Temperature"`
-		RealFeelTemperature Temperature
-		RealFeelTemperatureShade
+		RealFeelTemperature struct {
+			Minimum Measure `json:"Minimum"`
+			Maximum Measure `json:"Maximum"`
+		} `json:"RealFeelTemperature"`
+		RealFeelTemperatureShade struct {
+			Minimum Measure `json:"Minimum"`
+			Maximum Measure `json:"Maximum"`
+		} `json:"RealFeelTemperatureShade"`
 		HoursOfSun       int `json:"HoursOfSun`
 		DegreeDaySummary struct {
 			Heating Measure `json:"Heating"`

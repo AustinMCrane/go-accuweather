@@ -129,7 +129,7 @@ func (c *Client) GetDailyForecastsDetailed(locationKey string, forecastType Dail
 		AccuAPIRequest: *c.newAccuRequest(),
 		Query:          "true",
 	}
-	var result DailyForecast
+	var result DailyForecastDetailed
 	err := c.getJSON("/forecasts/v1/daily/"+forecastType.String()+"/"+locationKey, req, &result)
 	return &result, err
 }
