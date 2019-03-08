@@ -124,7 +124,7 @@ func (c *Client) GetDailyForecasts(locationKey string, forecastType DailyForecas
 // GetDailyForecastsDetailed gets forecast exactly like GetDailyForecats but with all the details available.
 //
 // See GetDailyForecasts for more information.
-func (c *Client) GetDailyForecastsDetailed(locationKey string, forecastType DailyForecastType) (*DailyForecast, error) {
+func (c *Client) GetDailyForecastsDetailed(locationKey string, forecastType DailyForecastType) (*DailyForecastDetailed, error) {
 	req := &detailedRequest{
 		AccuAPIRequest: *c.newAccuRequest(),
 		Query:          "true",
