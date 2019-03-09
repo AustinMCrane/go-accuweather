@@ -157,9 +157,9 @@ type DailyForecastDetailed struct {
 			Ice                  Measure `json:"Ice"`
 			HoursOfPrecipitation float32 `json:"HoursOfPrecipitation"`
 			HoursOfRain          float32 `json:"HoursOfRain"`
-			HoursOfSnow          float32 `json:"HoursOfSnow"`
-			HoursOfIce           float32 `json:"HoursOfIce"`
-			CloudCover           float32 `json:"CloudCover"`
+			HoursOfSnow          float64 `json:"HoursOfSnow"`
+			HoursOfIce           float64 `json:"HoursOfIce"`
+			CloudCover           int `json:"CloudCover"`
 		} `json:"Day"`
 		Night struct {
 			Icon                     int    `json:"Icon"`
@@ -191,11 +191,11 @@ type DailyForecastDetailed struct {
 			Rain                 Measure `json:"Rain"`
 			Snow                 Measure `json:"Snow"`
 			Ice                  Measure `json:"Ice"`
-			HoursOfPrecipitation float32 `json:"HoursOfPrecipitation"`
-			HoursOfRain          float32 `json:"HoursOfRain"`
-			HoursOfSnow          float32 `json:"HoursOfSnow"`
-			HoursOfIce           float32 `json:"HoursOfIce"`
-			CloudCover           float32 `json:"CloudCover"`
+			HoursOfPrecipitation float64 `json:"HoursOfPrecipitation"`
+			HoursOfRain          float64 `json:"HoursOfRain"`
+			HoursOfSnow          float64 `json:"HoursOfSnow"`
+			HoursOfIce           float64 `json:"HoursOfIce"`
+			CloudCover           float64 `json:"CloudCover"`
 		} `json:"Night"`
 		Sources    []string `json:"Sources"`
 		MobileLink string   `json:"MobileLink"`
