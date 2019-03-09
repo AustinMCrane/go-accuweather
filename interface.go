@@ -13,7 +13,7 @@ type TimeZone struct {
 
 // Measure is used to contain a value and its units of measure
 type Measure struct {
-	Value    float64 `json:"Value"`
+	Value    float32 `json:"Value"`
 	Unit     string  `json:"Unit"`
 	UnitType int     `json:"UnitType"`
 }
